@@ -3,6 +3,8 @@ import {
   Controller,
   Delete,
   Get,
+  HttpCode,
+  HttpStatus,
   Param,
   Post,
   Put,
@@ -31,6 +33,7 @@ export class ProductsController {
   } */
 
   @Post()
+  @HttpCode(HttpStatus.ACCEPTED)
   create(@Body('name') name: string, @Body('description') description: string) {
     return `Estás creando un producto ${name} con el texto ${description}.`;
   }
@@ -45,6 +48,7 @@ export class ProductsController {
   }
 
   @Delete(':id')
+  @HttpCode(204)
   remove(@Param('id') id: number) {
     return `Estás borrando el producto ${id}`;
   }
