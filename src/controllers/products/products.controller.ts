@@ -1,4 +1,12 @@
-import { Controller, Get, Param, Post } from '@nestjs/common';
+import {
+  Body,
+  Controller,
+  Delete,
+  Get,
+  Param,
+  Post,
+  Put,
+} from '@nestjs/common';
 
 @Controller('products')
 export class ProductsController {
@@ -17,8 +25,27 @@ export class ProductsController {
     return `El producto que quieres recibir es ${id}`;
   }
 
+  /* @Post()
+  create(@Body() body) {
+    return `Estás creando un producto ${body.name} con el texto ${body.description}`;
+  } */
+
   @Post()
-  create() {
-    return 'Estás creando un producto';
+  create(@Body('name') name: string, @Body('description') description: string) {
+    return `Estás creando un producto ${name} con el texto ${description}.`;
+  }
+
+  @Put(':id')
+  update(
+    @Param('id') id: number,
+    @Body('name') name: string,
+    @Body('description') description: string,
+  ) {
+    return `Estas actualizando el producto ${id}, colocando los datos ${name} con texto ${description}`;
+  }
+
+  @Delete(':id')
+  remove(@Param('id') id: number) {
+    return `Estás borrando el producto ${id}`;
   }
 }
