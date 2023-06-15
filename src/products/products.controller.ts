@@ -42,17 +42,16 @@ export class ProductsController {
 
   @Post()
   create(@Body() body) {
-    this.productsService.insert(body);
-    return `Insertado`;
+    return this.productsService.insert(body);
   }
 
   @Put(':id')
   update(@Param('id') id: number, @Body() body) {
-    this.productsService.update(id, body);
-    return `Actualizado`;
+    return this.productsService.update(id, body);
   }
 
   @Delete(':id')
+  @HttpCode(204)
   remove(@Param('id') id: number) {
     this.productsService.delete(id);
     return `Borrado`;

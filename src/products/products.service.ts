@@ -10,8 +10,8 @@ export class ProductsService {
     },
     {
       id: 2,
-      name: 'Vela aromática',
-      description: 'Esta vela lanza ricos olores',
+      name: 'Marco de fotos pequeño',
+      description: 'Marco ideal para tus fotos 10x15',
     },
   ];
 
@@ -27,11 +27,12 @@ export class ProductsService {
     this.products = [
       ...this.products,
       {
-        id: this.products.length + 1,
+        id: this.lastId() + 1,
         name: body.name,
         description: body.description,
       },
     ];
+    return this.getId(this.lastId());
   }
 
   update(id: number, body: any) {
@@ -43,9 +44,14 @@ export class ProductsService {
     this.products = this.products.map((item) =>
       item.id == id ? product : item,
     );
+    return this.getId(id);
   }
 
   delete(id: number) {
     this.products = this.products.filter((item) => item.id != id);
+  }
+
+  private lastId(): number {
+    return this.products[this.products.length - 1].id;
   }
 }
