@@ -9,13 +9,18 @@ import {
   Param,
   Post,
   Put,
+  Res,
 } from '@nestjs/common';
+import { ProductsService } from './products.service';
+import { response } from 'express';
 
 @Controller('products')
 export class ProductsController {
+  constructor(private readonly productsService: ProductsService) {}
+
   @Get()
   getAll() {
-    return 'Este es el listado productos';
+    return this.productsService.getAll();
   }
 
   @Get(':id/:category')
@@ -24,35 +29,32 @@ export class ProductsController {
   }
 
   @Get(':id')
-  find(@Param('id') id: number) {
-    return `El producto que quieres recibir es ${id}`;
+  find(@Res() response, @Param('id') id: number) {
+    let product = this.productsService.getId(id);
+    if (product) {
+      return response.status(HttpStatus.OK).send(product);
+    } else {
+      return response
+        .status(HttpStatus.NOT_FOUND)
+        .send('No he encontrado ese producto');
+    }
   }
 
-  /* @Post()
-  create(@Body() body) {
-    return `Estás creando un producto ${body.name} con el texto ${body.description}`;
-  } */
-
   @Post()
-  @HttpCode(HttpStatus.ACCEPTED)
-  create(@Body('name') name: string, @Body('description') description: string) {
-    return `Estás creando un producto ${name} con el texto ${description}.`;
+  create(@Body() body) {
+    this.productsService.insert(body);
+    return `Insertado`;
   }
 
   @Put(':id')
-  update(
-    @Param('id') id: number,
-    @Body('name') name: string,
-    @Body('description') description: string,
-  ) {
-    return `Estas actualizando el producto ${id}, colocando los datos ${name} con texto ${description}`;
+  update(@Param('id') id: number, @Body() body) {
+    this.productsService.update(id, body);
+    return `Actualizado`;
   }
 
   @Delete(':id')
-  // @HttpCode(204)
   remove(@Param('id') id: number) {
-    // Levantar excepción
-    throw new BadRequestException('No se puede hacer delete');
-    return `Estás borrando el producto ${id}`;
+    this.productsService.delete(id);
+    return `Borrado`;
   }
 }
