@@ -15,6 +15,7 @@ import {
 import { ProductsService } from './products.service';
 import { response } from 'express';
 import { Product } from './product.interface';
+import { ProductDto } from './dto/product.dto';
 
 @Controller('products')
 export class ProductsController {
@@ -42,12 +43,15 @@ export class ProductsController {
   }
 
   @Post()
-  create(@Body() body): Product {
+  create(@Body() body: ProductDto): Product {
     return this.productsService.insert(body);
   }
 
   @Put(':id')
-  update(@Param('id', ParseIntPipe) id: number, @Body() body): Product {
+  update(
+    @Param('id', ParseIntPipe) id: number,
+    @Body() body: ProductDto,
+  ): Product {
     return this.productsService.update(id, body);
   }
 
