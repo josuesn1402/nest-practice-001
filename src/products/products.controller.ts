@@ -17,7 +17,7 @@ import {
 } from '@nestjs/common';
 import { ProductsService } from './products.service';
 import { response } from 'express';
-import { Product } from './product.interface';
+import { Product } from './entities/product.entity';
 import { ProductDto } from './dto/product.dto';
 import { ProductPatchDto } from './dto/product-patch.dto';
 
