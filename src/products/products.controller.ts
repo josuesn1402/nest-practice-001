@@ -13,13 +13,14 @@ import {
 } from '@nestjs/common';
 import { ProductsService } from './products.service';
 import { response } from 'express';
+import { Product } from './product.interface';
 
 @Controller('products')
 export class ProductsController {
   constructor(private readonly productsService: ProductsService) {}
 
   @Get()
-  getAll() {
+  getAll(): Product[] {
     return this.productsService.getAll();
   }
 
@@ -29,30 +30,23 @@ export class ProductsController {
   }
 
   @Get(':id')
-  find(@Res() response, @Param('id') id: number) {
-    let product = this.productsService.getId(id);
-    if (product) {
-      return response.status(HttpStatus.OK).send(product);
-    } else {
-      return response
-        .status(HttpStatus.NOT_FOUND)
-        .send('No he encontrado ese producto');
-    }
+  find(@Param('id') id: number): Product {
+    return this.productsService.getId(id);
   }
 
   @Post()
-  create(@Body() body) {
+  create(@Body() body): Product {
     return this.productsService.insert(body);
   }
 
   @Put(':id')
-  update(@Param('id') id: number, @Body() body) {
+  update(@Param('id') id: number, @Body() body): Product {
     return this.productsService.update(id, body);
   }
 
   @Delete(':id')
   @HttpCode(204)
-  remove(@Param('id') id: number) {
+  remove(@Param('id') id: number): string {
     this.productsService.delete(id);
     return `Borrado`;
   }
