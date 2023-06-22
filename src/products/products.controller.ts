@@ -47,16 +47,18 @@ export class ProductsController {
   }
 
   @Post()
-  @UsePipes(new ValidationPipe())
-  create(@Body() body: ProductDto): Product {
+  // @UsePipes(new ValidationPipe())
+  async create(@Body() body: ProductDto): Promise<Product> {
     return this.productsService.insert(body);
   }
 
   @Put(':id')
-  update(
+  async update(
     @Param('id', ParseIntPipe) id: number,
     @Body() body: ProductDto,
-  ): Product {
+  ): Promise<Product> {
+    console.log(body);
+
     return this.productsService.update(id, body);
   }
 
