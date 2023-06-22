@@ -12,6 +12,8 @@ import {
   Post,
   Put,
   Res,
+  UsePipes,
+  ValidationPipe,
 } from '@nestjs/common';
 import { ProductsService } from './products.service';
 import { response } from 'express';
@@ -45,6 +47,7 @@ export class ProductsController {
   }
 
   @Post()
+  @UsePipes(new ValidationPipe())
   create(@Body() body: ProductDto): Product {
     return this.productsService.insert(body);
   }
