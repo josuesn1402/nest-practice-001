@@ -8,6 +8,7 @@ import {
   HttpStatus,
   Param,
   ParseIntPipe,
+  Patch,
   Post,
   Put,
   Res,
@@ -16,6 +17,7 @@ import { ProductsService } from './products.service';
 import { response } from 'express';
 import { Product } from './product.interface';
 import { ProductDto } from './dto/product.dto';
+import { ProductPatchDto } from './dto/product-patch.dto';
 
 @Controller('products')
 export class ProductsController {
@@ -53,6 +55,11 @@ export class ProductsController {
     @Body() body: ProductDto,
   ): Product {
     return this.productsService.update(id, body);
+  }
+
+  @Patch(':id')
+  patch(@Param('id') id: number, @Body() body: ProductPatchDto) {
+    return this.productsService.patch(id, body);
   }
 
   @Delete(':id')
