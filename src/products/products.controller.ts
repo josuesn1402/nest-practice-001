@@ -15,6 +15,7 @@ import { ProductsService } from './products.service';
 import { Product } from './entities/product.entity';
 import { ProductDto } from './dto/product.dto';
 import { ProductPatchDto } from './dto/product-patch.dto';
+import { QueryProductDto } from './dto/query-products.dto';
 
 @Controller('products')
 export class ProductsController {
@@ -24,14 +25,15 @@ export class ProductsController {
   getAll(
     // @Query() query
     // @Query('limit', ParseIntPipe) limit: number,
-    @Query() query,
+    @Query() query: QueryProductDto,
   ): Promise<Product[]> {
-    let limit = query.limit ? query.limit : 10;
-    limit = parseInt(limit);
-    if (isNaN(limit)) {
-      limit = 10;
-    }
-    return this.productsService.getAll(limit);
+    const defaultQuery = {
+      limit: 10,
+      order: 'name',
+      query: '',
+    };
+    query = { ...defaultQuery, ...query };
+    return this.productsService.getAll(query);
   }
 
   @Get(':id/:category')

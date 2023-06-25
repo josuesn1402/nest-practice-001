@@ -2,9 +2,10 @@ import { Injectable, NotFoundException } from '@nestjs/common';
 import { Product } from './entities/product.entity';
 import { ProductDto } from './dto/product.dto';
 import { ProductPatchDto } from './dto/product-patch.dto';
-import { DeepPartial, Repository } from 'typeorm';
+import { DeepPartial, Like, Repository } from 'typeorm';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Size } from './entities/size.entity';
+import { QueryProductDto } from './dto/query-products.dto';
 
 @Injectable()
 export class ProductsService {
@@ -15,9 +16,14 @@ export class ProductsService {
     private sizeRepository: Repository<Size>,
   ) {}
 
-  getAll(limit: number): Promise<Product[]> {
+  getAll(query: QueryProductDto): Promise<Product[]> {
     return this.productRepository.find({
-      take: limit,
+      take: query.limit,
+      where: [
+        { name: Like(`%${query.query}%`) },
+        { description: Like(`%${query.query}%`) },
+      ],
+      order: { [query.order]: 'ASC' },
       /*
       -- LLama la selección junto con las tablas relaciones
       --
