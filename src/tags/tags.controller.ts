@@ -23,9 +23,8 @@ export class TagsController {
   }
 
   @Get(':id')
-  find(@Param('id', ParseIntPipe) id: number) {
-    console.log(id, typeof id);
-    return 1;
+  find(@Param('id', ParseIntPipe) id: number): Promise<Tag> {
+    return this.tagsService.getId(id);
   }
 
   @Post()

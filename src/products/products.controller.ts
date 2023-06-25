@@ -51,7 +51,6 @@ export class ProductsController {
     @Param('id', ParseIntPipe) id: number,
     @Body() body: ProductDto,
   ): Promise<Product> {
-    console.log(body);
     return this.productsService.update(id, body);
   }
 
@@ -60,7 +59,6 @@ export class ProductsController {
     @Param('id', ParseIntPipe) id: number,
     @Body() body: ProductPatchDto,
   ): Promise<Product> {
-    console.log(body);
     return this.productsService.update(id, body);
   }
 
