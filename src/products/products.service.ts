@@ -64,7 +64,7 @@ export class ProductsService {
     const product = await this.productRepository.findOne({ where: { id } });
     if (product) {
       await this.productRepository.remove(product);
-      return; // Return early after removing the product
+      return;
     }
     throw new NotFoundException(`No he encontrado el producto con id ${id}`);
   }
