@@ -9,6 +9,7 @@ import {
   Patch,
   Post,
   Put,
+  Query,
 } from '@nestjs/common';
 import { ProductsService } from './products.service';
 import { Product } from './entities/product.entity';
@@ -20,8 +21,17 @@ export class ProductsController {
   constructor(private readonly productsService: ProductsService) {}
 
   @Get()
-  getAll(): Promise<Product[]> {
-    return this.productsService.getAll();
+  getAll(
+    // @Query() query
+    // @Query('limit', ParseIntPipe) limit: number,
+    @Query() query,
+  ): Promise<Product[]> {
+    let limit = query.limit ? query.limit : 10;
+    limit = parseInt(limit);
+    if (isNaN(limit)) {
+      limit = 10;
+    }
+    return this.productsService.getAll(limit);
   }
 
   @Get(':id/:category')

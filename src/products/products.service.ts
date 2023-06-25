@@ -15,9 +15,58 @@ export class ProductsService {
     private sizeRepository: Repository<Size>,
   ) {}
 
-  getAll(): Promise<Product[]> {
+  getAll(limit: number): Promise<Product[]> {
     return this.productRepository.find({
-      relations: ['sizes', 'reviews', 'reviews.product'],
+      take: limit,
+      /*
+      -- LLama la selección junto con las tablas relaciones
+      --
+      relations: ['sizes', 'reviews', 'reviews.product'], 
+      --
+      */
+      /*
+      -- Los que coincidan con el id 2
+      --
+      where: { id: 2 }, 
+      --
+      */
+      /* 
+      -- Los que tengan stock igual a 33
+      --
+      where: { stock: 33 }, 
+      --
+      */
+      /* 
+      -- 
+      take: 2, // Limita la cantidad de registros devuelta
+      order: { id: 'DESC' }, // Ordena pro id de manera descendente
+      where: [{ stock: 33 }, { name: 'Silla victoriana', stock: 34 }],
+      --
+      */
+      /*
+      -- Seleciona en orden descendente las filas que tengan 'silla' dentro del nombre
+      -- 
+      where: { name: Like('%silla%') },
+      order: { id: 'DESC' },
+      --
+      */
+      /*
+      --
+      --
+      take: 3,
+      order: {
+        name: 'ASC',
+        stock: 'DESC',
+      },
+      skip: 3, // Salta los 3 primeros resultados 
+      --
+      */
+      /*
+      -- Busca los que tengan un stock mayor a 33 y contengan en su nombre una letra 'p'
+      --
+      where: { stock: MoreThan(33), name: Like('%p%') },
+      --
+      */
     });
   }
 
