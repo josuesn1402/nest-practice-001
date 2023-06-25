@@ -12,21 +12,6 @@ export class ProductsService {
     private productRepository: Repository<Product>,
   ) {}
 
-  private products: Product[] = [
-    {
-      id: 1,
-      name: 'Vela aromática',
-      description: 'Esta vela lanza ricos olores',
-      stock: 0,
-    },
-    {
-      id: 2,
-      name: 'Marco de fotos pequeño',
-      description: 'Marco ideal para tus fotos 10x15',
-      stock: 12,
-    },
-  ];
-
   getAll(): Promise<Product[]> {
     return this.productRepository.find();
   }

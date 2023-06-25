@@ -12,19 +12,6 @@ export class TagsService {
     private tagsRepository: Repository<Tag>,
   ) {}
 
-  private tags: Tag[] = [
-    {
-      id: 1,
-      name: 'Muebles',
-      slug: 'muebles',
-    },
-    {
-      id: 2,
-      name: 'Accesorios',
-      slug: 'accesorios',
-    },
-  ];
-
   async getAll(): Promise<Tag[]> {
     return this.tagsRepository.find();
   }
