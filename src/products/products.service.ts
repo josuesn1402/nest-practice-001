@@ -67,15 +67,14 @@ export class ProductsService {
   }
 
   private async selectOrCreateSize(size: string): Promise<Size> {
-    let sizeEntity = await this.sizeRepository.findOne({
+    const sizeEntity = await this.sizeRepository.findOne({
       where: { size: size },
     });
     if (sizeEntity) {
       return sizeEntity;
     }
-    sizeEntity = this.sizeRepository.create({
+    return this.sizeRepository.create({
       size: size,
     } as DeepPartial<Size>);
-    return this.sizeRepository.save(sizeEntity);
   }
 }
