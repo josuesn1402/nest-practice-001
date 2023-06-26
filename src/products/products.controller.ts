@@ -16,10 +16,14 @@ import { Product } from './entities/product.entity';
 import { ProductDto } from './dto/product.dto';
 import { ProductPatchDto } from './dto/product-patch.dto';
 import { QueryProductDto } from './dto/query-products.dto';
+import { ConfigService } from '@nestjs/config';
 
 @Controller('products')
 export class ProductsController {
-  constructor(private readonly productsService: ProductsService) {}
+  constructor(
+    private readonly productsService: ProductsService,
+    private readonly configService: ConfigService,
+  ) {}
 
   @Get()
   getAll(
